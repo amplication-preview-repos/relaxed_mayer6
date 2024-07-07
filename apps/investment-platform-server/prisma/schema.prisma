@@ -1,0 +1,66 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model SecurityVerification {
+  id               String    @id @default(cuid())
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  isVerified       Boolean?
+  verificationDate DateTime?
+}
+
+model Project {
+  id          String             @id @default(cuid())
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  description String?
+  fundingGoal Float?
+  status      EnumProjectStatus?
+}
+
+model Investment {
+  id        String                @id @default(cuid())
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  amount    Float?
+  status    EnumInvestmentStatus?
+}
+
+model SmartContract {
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  contractAddress String?
+  network         String?
+}
+
+model User {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  firstName String?
+  lastName  String?
+  username  String        @unique
+  email     String?       @unique
+  password  String
+  roles     Json
+  role      EnumUserRole?
+}
+
+enum EnumProjectStatus {
+  Option1
+}
+
+enum EnumInvestmentStatus {
+  Option1
+}
+
+enum EnumUserRole {
+  Option1
+}
